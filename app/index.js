@@ -1,6 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, StatusBar } from 'react-native';
 import { Camera, Permissions } from "expo";
+import { Ionicons } from '@expo/vector-icons';
 
 export default class App extends React.Component {
     state = {
@@ -16,7 +17,7 @@ export default class App extends React.Component {
         });
     }
 
-    _handlePress = () => {
+    flip = () => {
         this.setState({
             type: this.state.type === Camera.Constants.Type.back ? Camera.Constants.Type.front : Camera.Constants.Type.back
         })
@@ -39,6 +40,7 @@ export default class App extends React.Component {
         } else {
             return (
                 <View style={styles.container}>
+                    <StatusBar barStyle="light-content" translucent />
                     <Camera style={styles.cameraContainer}
                         type={this.state.type}
                         ref={ref => this.camera = ref}
@@ -48,7 +50,14 @@ export default class App extends React.Component {
                                 onPress={this.snap}
                             >
                                 <Text style={styles.cameraButtonText}>
-                                    {' '}Take Photo{' '}
+                                    <Ionicons name="md-camera" size={32} color="white" />
+                                </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.cameraButtonContainer}
+                                onPress={this.flip}
+                            >
+                                <Text style={styles.cameraButtonText}>
+                                    <Ionicons name="md-reverse-camera" size={32} color="white" />
                                 </Text>
                             </TouchableOpacity>
                         </View>
@@ -72,7 +81,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     cameraButtonContainer: {
-        flex: 0.1,
+        flex: 1,
         alignSelf: 'flex-end',
         alignItems: 'center'
     },
